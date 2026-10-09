@@ -1,0 +1,89 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 96px; background: var(--void); }
+html.is-loading { overflow: hidden; }
+body {
+  margin: 0; min-height: 100vh; background: var(--void); color: var(--ink);
+  font-family: var(--font); font-size: var(--fs-body); line-height: 1.65; font-weight: 400;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility; overflow-x: clip;
+}
+img, svg, canvas { display: block; max-width: 100%; }
+h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+::selection { background: rgba(60, 200, 255, 0.28); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+canvas:focus-visible { outline-offset: -6px; border-radius: 28px; }
+
+.skip-link { position: fixed; left: 16px; top: -80px; z-index: 300; padding: 10px 16px; border-radius: 12px; background: var(--accent); color: var(--accent-ink); font-weight: 700; transition: top .2s; }
+.skip-link:focus { top: 16px; }
+.noscript { position: fixed; inset: auto 16px 16px; padding: 14px 18px; background: #11161d; border: 1px solid var(--line-2); border-radius: 14px; z-index: 500; }
+
+/* ---------- Layout ---------- */
+.container { width: min(100% - 2 * var(--gutter), var(--max)); margin-inline: auto; }
+.container--wide { width: min(100% - 2 * var(--gutter), var(--max-wide)); }
+.section { position: relative; padding-block: var(--section-y); }
+section[id] { scroll-margin-top: 24px; }
+
+/* ---------- Type ---------- */
+.meta { font-size: var(--fs-meta); font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.h2 { font-size: var(--fs-h2); line-height: 1.06; font-weight: 700; letter-spacing: -0.03em; max-width: 18ch; text-wrap: balance; }
+.lead { font-size: var(--fs-lead); line-height: 1.4; font-weight: 500; letter-spacing: -0.015em; color: var(--ink); max-width: 30ch; text-wrap: balance; }
+.body { color: var(--ink-2); max-width: 58ch; }
+.body--muted { color: var(--muted); }
+.lead + .body, .body + .body { margin-top: var(--s-4); }
+
+.section-head { margin-bottom: clamp(40px, 6vw, 80px); }
+.section-no { display: flex; align-items: center; gap: 14px; margin-bottom: var(--s-5); font-size: var(--fs-meta); font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.section-no span { color: var(--accent); font-variant-numeric: tabular-nums; }
+.section-no::after { content: ""; height: 1px; width: 64px; background: linear-gradient(90deg, var(--line-2), transparent); }
+
+/* ---------- Icons (one stroke system) ---------- */
+.icon { width: 1.25em; height: 1.25em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  --lift: 0px;
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 48px; padding: 0 24px; border-radius: var(--r-pill);
+  font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+  transition: transform var(--t-med) var(--ease-out), box-shadow var(--t-med) var(--ease-out), background var(--t-med), border-color var(--t-med), filter var(--t-med);
+  will-change: transform; user-select: none; -webkit-tap-highlight-color: transparent;
+}
+.btn .icon { width: 1.15em; height: 1.15em; transition: transform var(--t-med) var(--ease-out); }
+.btn:hover .icon[data-arrow], .btn:hover .icon:last-child:not(:first-child) { transform: translateX(3px); }
+.btn:active { transform: scale(0.97) !important; }
+.btn--primary { color: var(--accent-ink); background: linear-gradient(135deg, #5fd6ff, var(--accent) 45%, var(--accent-2)); box-shadow: 0 10px 30px -10px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,.45); }
+.btn--primary:hover { box-shadow: 0 14px 40px -10px rgba(60,200,255,.5), inset 0 1px 0 rgba(255,255,255,.55); filter: brightness(1.06); }
+.btn--glass { background: var(--glass-2); border: 1px solid var(--line-2); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); box-shadow: inset 0 1px 0 var(--hi); }
+.btn--glass:hover { background: var(--glass-3); border-color: rgba(255,255,255,.24); }
+.btn--sm { min-height: 40px; padding: 0 16px; font-size: 0.72rem; }
+.btn--lg { min-height: 56px; padding: 0 30px; }
+a[data-bind-href]:not([href]), [hidden] { display: none !important; }
+
+/* ---------- Motion: entrance (hero) & scroll reveal ---------- */
+/* Animations use fill-mode `backwards` so they leave NO inline state behind:
+   hover transforms and transitions on the same elements keep working. */
+.js:not(.is-ready) [data-enter], .js:not(.is-ready) .stage__canvas { opacity: 0; }
+.js:not(.is-ready) .hero__word { transform: translateY(112%); }
+.is-ready [data-enter] { animation: enter 1s var(--ease-out) var(--d, 0s) backwards; }
+.is-ready .hero__word { animation: word-rise 1.15s var(--ease-out) var(--d, 0s) backwards; }
+.is-ready .stage__canvas { animation: stage-in 1.5s var(--ease-out) .45s backwards; }
+@keyframes enter { from { opacity: 0; transform: translate3d(0, 20px, 0) scale(.985); filter: blur(7px); } }
+@keyframes word-rise { from { transform: translateY(112%); } }
+@keyframes stage-in { from { opacity: 0; transform: scale(.94); filter: blur(12px); } }
+
+.js [data-reveal]:not(.in), .js [data-reveal="stagger"]:not(.in) > * { opacity: 0; }
+.js [data-reveal].in { animation: reveal .95s var(--ease-out) backwards; }
+.js [data-reveal="stagger"].in { animation: none; }
+.js [data-reveal="stagger"].in > * { animation: reveal .95s var(--ease-out) calc(var(--i, 0) * 90ms) backwards; }
+@keyframes reveal { from { opacity: 0; transform: translate3d(0, 25px, 0); filter: blur(8px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  .is-ready [data-enter], .is-ready .hero__word, .is-ready .stage__canvas, .js [data-reveal].in, .js [data-reveal="stagger"].in > * { animation: fade .4s linear backwards !important; animation-delay: 0s !important; }
+  @keyframes fade { from { opacity: 0; } }
+}

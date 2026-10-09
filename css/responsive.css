@@ -1,0 +1,87 @@
+/* ==========================================================================
+   RESPONSIVE — desktop ≥1440 · laptop 1024–1439 · tablet 768–1023 · mobile <768 · small <480
+   Mobile / tablet are recomposed, not shrunk.
+   ========================================================================== */
+
+/* Laptop */
+@media (max-width: 1439px) {
+  .hero__name { font-size: clamp(3.2rem, .5rem + 6.6vw, 7.4rem); }
+  .hero__grid { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr) minmax(0, .9fr); }
+  .stage__surface { inset: 0 -18% 0 -18%; }
+}
+@media (max-width: 1179px) {
+  .train-grid { grid-template-columns: repeat(2, 1fr); }
+  .stage__surface { inset: 0 -12% 0 -12%; }
+  .hero__tagline { max-width: 30ch; }
+}
+
+/* Tablet — two-column composition: intro | stage, summary spans below */
+@media (max-width: 1023px) {
+  .hero { padding-block: calc(var(--safe-top) + 100px) 72px; }
+  .hero__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "intro stage" "summary summary"; gap: 28px 16px; }
+  .stage { grid-area: stage; height: clamp(520px, 62svh, 720px); }
+  .hero__intro { grid-area: intro; align-self: center; }
+  .hero__summary { grid-area: summary; grid-template-columns: 1.1fr 1fr; align-items: start; gap: 14px; margin-top: 8px; }
+  .mini-cards { grid-template-columns: 1fr; }
+  .hero__name { font-size: clamp(3.4rem, 9vw, 6.4rem); }
+  .stage__surface { inset: 0 -14% 0 -34%; }
+  .hero__scroll { display: none; }
+
+  .about__body, .container--split, .contact__body, .case, .intern { grid-template-columns: 1fr; }
+  .section-head--side { position: static; margin-bottom: clamp(32px, 6vw, 56px); }
+  .feature-grid { grid-template-columns: 1fr; }
+  .feature { min-height: 0; flex-direction: column; }
+  .feature h3 { padding-top: 40px; }
+  .cert-grid { grid-template-columns: repeat(2, 1fr); }
+  .case__visual { min-height: 220px; order: -1; }
+  .contact__actions { grid-template-columns: 1fr 1fr; }
+}
+
+/* Mobile — single column: 3D model → name → profession → CTA → about … */
+@media (max-width: 767px) {
+  :root { --nav-h: 52px; }
+  .hero { padding-block: calc(var(--safe-top) + 78px) 56px; min-height: 0; align-items: flex-start; }
+  .hero__grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "stage" "intro" "summary"; gap: 8px; }
+  .stage { height: clamp(380px, 54svh, 520px); }
+  .stage__surface { inset: 0 -22% 0 -22%; }
+  .hero__intro { text-align: left; padding-top: 6px; }
+  .hero__name { font-size: clamp(3.4rem, 17vw, 5.6rem); }
+  .hero__line { display: inline-block; margin-right: .18em; }
+  .hero__role { margin-top: 20px; max-width: none; }
+  .hero__tagline { max-width: 34ch; margin-top: 16px; }
+  .hero__cta { margin-top: 26px; }
+  .hero__cta .btn { flex: 1 1 100%; }
+  .hero__summary { grid-template-columns: 1fr; margin-top: 18px; }
+  .hud { width: min(100%, 360px); }
+  .hud__hint { font-size: .62rem; letter-spacing: .2em; }
+  .statement { font-size: clamp(3rem, 19vw, 6rem); }
+  .statement span:nth-child(2) { margin-left: 8vw; } .statement span:nth-child(3) { margin-left: 16vw; }
+  .cert-grid, .train-grid { grid-template-columns: 1fr; }
+  .train, .cert { min-height: 0; }
+  .train__icon { margin-bottom: 10px; }
+  .timeline { padding-left: 30px; }
+  .t-item::after { left: -30px; }
+  .timeline::before { left: 6px; }
+  .contact__actions { grid-template-columns: 1fr; }
+  .contact__title { font-size: clamp(3.4rem, 22vw, 7rem); }
+  .section-no::after { width: 40px; }
+  .footer__row { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 479px) {
+  .stage { height: clamp(360px, 52svh, 460px); }
+  .hero__role span + span::before { margin-inline: 10px; }
+  .hero__name { font-size: clamp(3.2rem, 18.5vw, 4.8rem); }
+  .btn { padding: 0 20px; }
+  .glass-modal__panel { padding: 22px 18px; }
+}
+@media (max-height: 640px) and (min-width: 1024px) { .stage { height: 560px; } }
+
+/* Touch devices: no hover-only affordances */
+@media (hover: none) {
+  .cursor { display: none; }
+  .feature:hover, .cert:hover, .train:hover, .case:hover, .mini:hover { transform: none; }
+}
+@media (max-width: 767px) {
+  .contact__title { font-size: clamp(3rem, 17vw, 6rem); }
+  .contact__title span:last-child { margin-left: 0; }
+}
